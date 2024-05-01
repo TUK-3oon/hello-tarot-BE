@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "tarot",
+    
+    "rest_framework",
+    "card",
+    "game",
 ]
 
 MIDDLEWARE = [
