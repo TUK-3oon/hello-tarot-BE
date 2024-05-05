@@ -6,6 +6,24 @@ from .models import Gametype, Game
 
 @api_view(["POST"])
 def game_rule_by_type_name(request):
+    """
+    Post Game Rule By Game Type Name
+     
+    Args:
+        request: {
+            game_type_name(str): Name of Game Type
+        }
+    Returns:
+        response : {
+            game_type_id(uuid): 
+            game_type_name(str): 
+            game_info: {
+                game_type_all_card_num(int): All of Card Numbers in Game Type
+                game_type_select_card_num(int): Selected Card Numbers in Game Type
+                game_type_fan_card_num(int): Fanned Card Number in Game Type 
+            }
+        }
+    """
     game_type_name = request.data.get("game_type_name")
     
     try:
@@ -19,6 +37,19 @@ def game_rule_by_type_name(request):
 
 @api_view(["POST"])
 def game_start(request):
+    """
+    Get Answer of Horoscope
+     
+    Args:
+        request: {
+            game_type_id(uuid): Id of Game Type
+        }
+    Returns:
+        response : {
+            game_id(uuid): Id of Game 
+            game_question: Question of Game
+        }
+    """
     game_type_id = request.data.get("game_type_id")
 
     try:
@@ -36,6 +67,24 @@ def game_start(request):
 
 @api_view(["POST"])
 def game_end(request):
+    """
+    Get Answer of Horoscope
+     
+    Args:
+        request: {
+            game_id(uuid): Id of Game
+            select_card_id(uuid): Select Card Id by Client
+            all_select_card_id: {
+                select_card_id(uuid): Selected card Id in Game
+                select_card_id(uuid): Selected card Id in Game
+                select_card_id(uuid): Selected card Id in Game
+            }
+        }
+    Returns:
+        response : {
+            success(boolean): True
+        }
+    """
     game_id = request.data.get("game_id")
     select_card_id = request.data.get("select_card_id")
     all_select_card_id = request.data.get("all_select_card_id")
