@@ -1,9 +1,13 @@
 from rest_framework import serializers
 from .models import Game, Gametype
 
-class GameRuleSerializer(serializers.ModelSerializer):
-    game_type_id = serializers.UUIDField(source='game_type_id')
-    game_type_name = serializers.CharField(source='game_type_name')
+class GameRuleRequestSerializer(serializers.Serializer):
+    game_type_name = serializers.CharField()
+
+
+class GameRuleResponseSerializer(serializers.ModelSerializer):
+    game_type_id = serializers.UUIDField()
+    game_type_name = serializers.CharField()
     game_info = serializers.SerializerMethodField()
 
     class Meta:
@@ -18,8 +22,38 @@ class GameRuleSerializer(serializers.ModelSerializer):
         }
 
 
+class GameQuestRequestSerializer(serializers.Serializer):
+    game_type_id = serializers.UUIDField()
 
-class GameQuestSerializer(serializers.ModelSerializer):
+
+class GameQuestResponseSerializer(serializers.ModelSerializer):
+    game_id = serializers.UUIDField()
+    game_quest = serializers.CharField()
     class Meta:
         model = Game
-        fields = ['game_quest', 'game_id',]
+        fields = ('game_id', 'game_quest')
+
+
+
+"""
+    Get Answer of Horoscope
+     
+    Args:
+        request: {
+            game_id(uuid): Id of Game
+            game_select_card_id(uuid): Select Card Id by Client
+            game_all_select_card_id: {
+                game_select_card_id(uuid): Selected card Id in Game
+                game_select_card_id(uuid): Selected card Id in Game
+                game_select_card_id(uuid): Selected card Id in Game
+            }
+        }
+    Returns:
+        response : {
+            success(boolean): True
+        }
+    """
+class GameEndRequestSerializer(serializers.Serializer):
+    game_id = serializers.UUIDField()
+    select_card_id = serializers.UUIDField()
+    all_select_card_id = serializers.DictField(child=serializers.UUIDField())
