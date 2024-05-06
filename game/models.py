@@ -4,8 +4,8 @@ from card.models import Card
 class Game(models.Model):
     game_id = models.UUIDField(primary_key=True)
     game_type = models.ForeignKey('Gametype', models.DO_NOTHING, blank=False, null=False)
-    game_select_card_id = models.IntegerField(blank=False, null=False)
-    game_all_select_card_id = models.IntegerField(blank=False, null=False)
+    game_select_card_id = models.UUIDField(blank=False, null=False)
+    game_all_select_card_id = models.UUIDField(blank=False, null=False)
     game_quest = models.TextField(blank=False, null=False)
     game_started_at = models.DateTimeField(blank=False, null=False)
     game_finished_at = models.DateTimeField(blank=False, null=False)
