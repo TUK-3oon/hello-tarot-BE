@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import AnswerResponseSerializer, CardBackImgSerializer, CardFrontInfoSerializer, HoroscopeRequestSerializer, HoroscopeResponseSerializer, AnswerRequestSerializer
 
+
 @api_view(["GET"])
 def get_card_back_image(request):
     """
@@ -19,13 +20,14 @@ def get_card_back_image(request):
             image(str) : image url 
         }
     """
+    try:
+        cards = Card.objects.all()
+    except Card.DoesNotExist:
+        return Response({"error":"Card not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    cards = Card.objects.all().values() 
+    serializer = CardBackImgSerializer(instance=cards, many=True)
 
-    serializer = CardBackImgSerializer(cards, many=True)
-
-    return Response(serializer.data)
-
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(["GET"])
 def get_card_front_info(request):
@@ -49,11 +51,14 @@ def get_card_front_info(request):
         }
     """
 
-    cards = Card.objects.all()
+    try:
+        cards = Card.objects.all()
+    except Card.DoesNotExist:
+        return Response({"error":"Card not found."}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = CardFrontInfoSerializer(cards, many=True)
 
-    return Response(serializer.data) 
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -72,7 +77,6 @@ def get_answer_horoscope(request):
             reverse(str) : Negative Content
         }
     """
-
     serializer = HoroscopeRequestSerializer(data=request.data)
 
     if serializer.is_valid():
@@ -91,6 +95,7 @@ def get_answer_horoscope(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 @api_view(["POST"])
 def get_answer(request):
     """
@@ -106,7 +111,6 @@ def get_answer(request):
             reverse(str) : Negative Content
         }
     """
-
     serializer = AnswerRequestSerializer(data=request.data)
 
     if serializer.is_valid():
