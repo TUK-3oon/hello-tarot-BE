@@ -7,7 +7,6 @@ class CardBackImgSerializer(serializers.ModelSerializer):
         fields = ('card_image_url',)
 
 
-
 class CardFrontInfoSerializer(serializers.ModelSerializer):
     card_contents = serializers.SerializerMethodField()
 
@@ -27,6 +26,19 @@ class HoroscopeRequestSerializer(serializers.Serializer):
 
 
 class HoroscopeResponseSerializer(serializers.ModelSerializer):
+    forward = serializers.CharField(source='card_forward')
+    reverse = serializers.CharField(source='card_reverse')
+
+    class Meta:
+        model = Card
+        fields = ('forward', 'reverse')
+
+
+class AnswerRequestSerializer(serializers.Serializer):
+    game_id = serializers.UUIDField()
+
+
+class AnswerResponseSerializer(serializers.Serializer):
     forward = serializers.CharField(source='card_forward')
     reverse = serializers.CharField(source='card_reverse')
 
