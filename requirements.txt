@@ -1,8 +1,20 @@
-asgiref==3.7.2
+# Django
 Django==5.0.3
-django-dotenv==1.4.2
-psycopg2==2.9.9
-psycopg2-binary==2.9.9
-python-dotenv==1.0.1
-sqlparse==0.4.4
 djangorestframework==3.15.1
+markdown
+django-filter
+django-dotenv==1.4.2
+python-dotenv==1.0.1
+django-cors-headers==4.3.1
+
+# asgi
+asgiref==3.7.2
+
+# DB
+sqlparse==0.4.4
+psycopg2-binary==2.9.9
+psycopg2==2.9.9
+
+# gemini
+google-generativeai
+google-cloud-aiplatform
