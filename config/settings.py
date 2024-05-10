@@ -172,8 +172,7 @@ CORS_ALLOW_HEADERS = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://0.0.0.0:8080",
-    "https://0.0.0.0:8080",
+    "*"
 ]
 
 
