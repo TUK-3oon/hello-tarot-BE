@@ -5,4 +5,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("card/", include("card.urls")),
     path("game/", include("game.urls")),
+    path("googleai/", include("gemini.urls")),
 ]
