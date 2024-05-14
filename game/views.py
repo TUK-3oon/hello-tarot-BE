@@ -12,19 +12,21 @@ from .models import Gametype, Game
 def game_rule_by_type_name(request):
     """
     Post Game Rule By Game Type Name
-     
-    Args:
+
+    Args:\n
         request: {
             game_type_name(str): Name of Game Type
         }
-    Returns:
+
+
+    Returns:\n
         response : {
-            game_type_id(uuid): 
-            game_type_name(str): 
+            game_type_id(uuid):
+            game_type_name(str):
             game_info: {
                 game_type_all_card_num(int): All of Card Numbers in Game Type
                 game_type_select_card_num(int): Selected Card Numbers in Game Type
-                game_type_fan_card_num(int): Fanned Card Number in Game Type 
+                game_type_fan_card_num(int): Fanned Card Number in Game Type
             }
         }
     """
@@ -52,11 +54,13 @@ def game_start(request):
     """
     Get Answer of Horoscope
      
-    Args:
+    Args:\n
         request: {
             game_type_id(uuid): Id of Game Type
         }
-    Returns:
+
+
+    Returns:\n
         response : {
             game_id(uuid): Id of Game 
             game_question: Question of Game
@@ -85,7 +89,7 @@ def game_end(request):
     """
     Get Answer of Horoscope
      
-    Args:
+    Args:\n
         request: {
             game_id(uuid): Id of Game
             select_card_id(uuid): Select Card Id by Client
@@ -95,7 +99,9 @@ def game_end(request):
                 select_card_id(uuid): Selected card Id in Game
             }
         }
-    Returns:
+
+
+    Returns:\n
         response : {
             success(boolean): True
         }
