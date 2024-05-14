@@ -172,7 +172,8 @@ CORS_ALLOW_HEADERS = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "*"
+    "http://*",
+    "https://*",
 ]
 
 
@@ -181,7 +182,7 @@ CORS_ALLOWED_ORIGINS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
