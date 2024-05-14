@@ -166,3 +166,9 @@ migrations
 migrations/
 .migrations
 .migrations/
+
+data/
+/data
+.data/
+
+init.sql
