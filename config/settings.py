@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     "card",
     "game",
+    "init",
     "gemini",
 ]
 

@@ -11,11 +11,13 @@ def get_card_back_image(request):
     """
     Get Card Back images
      
-    Args:
+    Args:\n
         request: {
             None
             }
-    Returns:
+
+
+    Returns:\n
         reponse: {    
             image(str) : image url 
         }
@@ -34,11 +36,13 @@ def get_card_front_info(request):
     """
     Get Card Front Informations
      
-    Args:
+    Args:\n
         request: {
             None
         }
-    Returns:
+
+
+    Returns:\n
         response: {
             card_id(uuid) : Primary key value of Card
             card_name(str) : Name of Card
@@ -66,12 +70,14 @@ def get_answer_horoscope(request):
     """
     Get Answer of Horoscope
      
-    Args:
+    Args:\n
         request: {
             date(datetime): DateTime of Today
             card_id(uuid): Id of Card
         }
-    Returns:
+
+
+    Returns:\n
         response : {
             forward(str) : Positive Content
             reverse(str) : Negative Content
@@ -101,11 +107,13 @@ def get_answer(request):
     """
     Get Answer of Horoscope
      
-    Args:
+    Args:\n
         request: {
             game_id(uuid): Id of Game
         }
-    Returns:
+
+
+    Returns:\n
         response : {
             forward(str) : Positive Content
             reverse(str) : Negative Content
