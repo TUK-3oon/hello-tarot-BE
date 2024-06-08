@@ -15,9 +15,9 @@ def debug_task(self):
     print("Request: {0!r}".format(self.request))
 
 
-app.conf.beat_schedule = {
-    "update-status-5-minutes": {
-        "task": "check_game_status",
-        "schedule": crontab(second="*/1")
-    }
-}
+# app.conf.beat_schedule = {
+#     "update-status-5-minutes": {
+#         "task": "check_game_status",
+#         "schedule": crontab(second="*/1")
+#     }
+# }
