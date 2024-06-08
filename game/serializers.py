@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Game, Gametype
+from game.models import Game, Gametype
 
 class GameRuleRequestSerializer(serializers.Serializer):
     game_type_name = serializers.CharField()

@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from gemini import views
 
 urlpatterns = [
     path("", views.google_ai, name="google_ai"),

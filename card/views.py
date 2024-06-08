@@ -1,9 +1,9 @@
-from game.models import Game
-from .models import Card
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import AnswerResponseSerializer, CardBackImgSerializer, CardFrontInfoSerializer, HoroscopeRequestSerializer, HoroscopeResponseSerializer, AnswerRequestSerializer
+from game.models import Game
+from card.models import Card
+from card.serializers import AnswerResponseSerializer, CardBackImgSerializer, CardFrontInfoSerializer, HoroscopeRequestSerializer, HoroscopeResponseSerializer, AnswerRequestSerializer
 
 
 @api_view(["GET"])

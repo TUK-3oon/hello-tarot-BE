@@ -1,17 +1,13 @@
 import os
 import time
-import json
-from .logger import log
-
-import google.generativeai as genai
+from gemini.logger import log
 from gemini.serializer import GoogleAIRequestSerializer, GoogleAIResponseSerializer
-
+import google.generativeai as genai
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
 from dotenv import load_dotenv
-
-
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")

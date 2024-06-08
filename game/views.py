@@ -3,11 +3,12 @@ import uuid
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Gametype, Game
-from .serializers import GameRuleRequestSerializer, GameRuleResponseSerializer, GameSelectedCardInfoSerializer
-from .serializers import GameQuestRequestSerializer, GameQuestResponseSerializer
-from .serializers import GameEndRequestSerializer
-from django.utils import timezone  # Correct import for timezone
+from game.models import Gametype, Game
+from game.serializers import GameSelectedCardInfoSerializer
+from game.serializers import GameRuleRequestSerializer, GameRuleResponseSerializer
+from game.serializers import GameQuestRequestSerializer, GameQuestResponseSerializer
+from game.serializers import GameEndRequestSerializer
+from django.utils import timezone 
 
 
 @api_view(["POST"])
