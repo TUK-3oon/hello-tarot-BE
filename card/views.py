@@ -1,12 +1,14 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from config.utils import validate_serializer, exception_handler, success_response
 from game.models import Game
 from card.models import Card
 from card.serializers import AnswerResponseSerializer, CardBackImgSerializer, CardFrontInfoSerializer, HoroscopeRequestSerializer, HoroscopeResponseSerializer, AnswerRequestSerializer
 
 
 @api_view(["GET"])
+@exception_handler(view=True)
 def get_card_back_image(request):
     """
     Get Card Back images
@@ -22,16 +24,14 @@ def get_card_back_image(request):
             image(str) : image url 
         }
     """
-    try:
-        cards = Card.objects.all()
-    except Card.DoesNotExist:
-        return Response({"error":"Card not found"}, status=status.HTTP_404_NOT_FOUND)
+    cards = Card.objects.all()
+    response_data = CardBackImgSerializer(instance=cards, many=True).data
 
-    serializer = CardBackImgSerializer(instance=cards, many=True)
+    return success_response(response_data, status=status.HTTP_200_OK)
 
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(["GET"])
+@exception_handler(view=True)
 def get_card_front_info(request):
     """
     Get Card Front Informations
@@ -54,18 +54,14 @@ def get_card_front_info(request):
             }
         }
     """
+    cards = Card.objects.all()
+    response_data = CardFrontInfoSerializer(cards, many=True).data
 
-    try:
-        cards = Card.objects.all()
-    except Card.DoesNotExist:
-        return Response({"error":"Card not found."}, status=status.HTTP_404_NOT_FOUND)
-
-    serializer = CardFrontInfoSerializer(cards, many=True)
-
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return success_response(response_data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
+@exception_handler(view=True)
 def get_answer_horoscope(request):
     """
     Get Answer of Horoscope
@@ -83,26 +79,17 @@ def get_answer_horoscope(request):
             reverse(str) : Negative Content
         }
     """
-    serializer = HoroscopeRequestSerializer(data=request.data)
+    serializer = validate_serializer(HoroscopeRequestSerializer, request.data)
 
-    if serializer.is_valid():
-        card_id = serializer.validated_data.get('card_id')
-        date = serializer.validated_data.get('date')
-
-        try:
-            card = Card.objects.get(card_id=card_id)
-        except Card.DoesNotExist:
-            return Response({"error": "Card not found."}, status=status.HTTP_404_NOT_FOUND)
-
-        response_serializer = HoroscopeResponseSerializer(card)
-        
-        return Response(response_serializer.data, status=status.HTTP_200_OK)
+    card_id = serializer.get('card_id')
+    card = Card.objects.get(card_id=card_id)
+    response_data = HoroscopeResponseSerializer(card).data
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+    return success_response(response_data, status=status.HTTP_200_OK)
+    
 
 @api_view(["POST"])
+@exception_handler(view=True)
 def get_answer(request):
     """
     Get Answer of Horoscope
@@ -119,18 +106,11 @@ def get_answer(request):
             reverse(str) : Negative Content
         }
     """
-    serializer = AnswerRequestSerializer(data=request.data)
+    serializer = validate_serializer(AnswerRequestSerializer, request.data)
 
-    if serializer.is_valid():
-        game_id = serializer.validated_data.get('game_id')
+    game_id = serializer.get('game_id')
+    game = Game.objects.get(game_id=game_id)
 
-        try:
-            game = Game.objects.get(game_id=game_id)
-        except Game.DoesNotExist:
-            return Response({"error": "Card not found."}, status=status.HTTP_404_NOT_FOUND)
-
-        response_serializer = AnswerResponseSerializer(game)
-        
-        return Response(response_serializer.data, status=status.HTTP_200_OK)
+    response_data = AnswerResponseSerializer(game).data
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return success_response(response_data, status=status.HTTP_200_OK)

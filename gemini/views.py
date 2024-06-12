@@ -1,6 +1,7 @@
+# from gemini.logger import log
 import os
 import time
-from gemini.logger import log
+from config.utils import validate_serializer, exception_handler, success_response
 from gemini.serializer import GoogleAIRequestSerializer, GoogleAIResponseSerializer
 import google.generativeai as genai
 from rest_framework.decorators import api_view
@@ -15,6 +16,7 @@ GOOGLE_AI_TOKEN = os.getenv("GOOGLE_AI_TOKEN")
 
 
 @api_view(["POST", "GET"])
+@exception_handler(view=True)
 def google_ai(request):
     """
     Use Gemini Prompt View
@@ -44,27 +46,18 @@ def google_ai(request):
         }
     """
     if request.method == "GET":
-        return Response({"message": "This is a GET request"}, status=status.HTTP_200_OK)
+        return success_response({"message": "This is a GET request"}, status=status.HTTP_200_OK)
 
-    # Confirm validation and deserialzing data by using serialized data model
-    serializer = GoogleAIRequestSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    serializer = validate_serializer(GoogleAIRequestSerializer, request.data)
     genai.configure(api_key=GOOGLE_API_KEY)
     model = genai.GenerativeModel('gemini-pro')
-
     content = ""
-    contents = serializer.validated_data.get('contents', [])
-
+    contents = serializer.get('contents', [])
     headers = {
         'Authorization': f'Token {GOOGLE_AI_TOKEN}',
         'Content-Type': 'application/json',
     }
 
-    # parse user question in request form
-    # contents: user's request
-    # c: content of "contents" -> I use 'c' for parsing property that "contents/parts/text"
     for c in contents:
         parts = c.get('parts', [])
         for part in parts:
@@ -72,20 +65,11 @@ def google_ai(request):
             if text:
                 content = text
 
-    try:
-        start = time.time()
-        response_text = model.generate_content(content)
-        end = time.time()
-        log.info(f"Time taken to generate content {end - start}")
+    response_text = model.generate_content(content)
+    candidates = response_text.candidates if response_text else []
+    parts = [{'text': candidate.content.parts[0].text} for candidate in candidates]
 
-        candidates = response_text.candidates if response_text else []
-        parts = [{'text': candidate.content.parts[0].text} for candidate in candidates]
+    text = [part['text'] for part in parts]
 
-        text = [part['text'] for part in parts]
-
-        # Deserialzing data by using serialized data model
-        response_serializer = GoogleAIResponseSerializer({'response': text})
-        return Response(response_serializer.data, status=status.HTTP_200_OK)
-    except Exception as e:
-        print(e)
-        return Response({"error": e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    response_data = GoogleAIResponseSerializer({'response': text})
+    return success_response(response_data.data, status=status.HTTP_200_OK)
