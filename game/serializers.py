@@ -1,5 +1,7 @@
+import json
 from rest_framework import serializers
 from game.models import Game, Gametype
+
 
 class GameRuleRequestSerializer(serializers.Serializer):
     game_type_name = serializers.CharField()
@@ -22,11 +24,11 @@ class GameRuleResponseSerializer(serializers.ModelSerializer):
         }
 
 
-class GameQuestRequestSerializer(serializers.Serializer):
+class GameStartRequestSerializer(serializers.Serializer):
     game_type_id = serializers.UUIDField()
 
 
-class GameQuestResponseSerializer(serializers.ModelSerializer):
+class GameStartResponseSerializer(serializers.ModelSerializer):
     game_id = serializers.UUIDField()
     game_quest = serializers.CharField()
     class Meta:
@@ -40,5 +42,28 @@ class GameEndRequestSerializer(serializers.Serializer):
     all_select_card_id = serializers.DictField(child=serializers.UUIDField())
 
 
-class GameSelectedCardInfoSerializer(serializers.Serializer):
+class GameEndResponseSerializer(serializers.Serializer):
+    success = serializers.BooleanField(default=False)
     game_id = serializers.UUIDField()
+    select_card_id = serializers.UUIDField()
+    all_select_card_id = serializers.DictField()
+
+
+class GameSelectedCardInfoRequestSerializer(serializers.Serializer):
+    game_id = serializers.UUIDField()
+    
+
+class GameSelectedCardInfoResponseSerializer(serializers.Serializer):
+    success = serializers.BooleanField(default=False)
+    game_id = serializers.UUIDField()
+    select_card_id = serializers.UUIDField()
+    all_select_card_id = serializers.DictField()
+
+    def get_info(_game_id):
+        game = Game.objects.get(game_id=_game_id)
+        return {
+            'success': game.game_finished_at is not None,
+            'gameId': game.game_id,
+            'selectCardId': game.game_select_card_id,
+            'allSelectCardId': json.loads(game.game_all_select_card_id)
+        }
