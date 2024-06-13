@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Card
+from card.models import Card
 
 class CardBackImgSerializer(serializers.ModelSerializer):
     class Meta:

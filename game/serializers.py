@@ -1,5 +1,7 @@
+import json
 from rest_framework import serializers
-from .models import Game, Gametype
+from game.models import Game, Gametype
+
 
 class GameRuleRequestSerializer(serializers.Serializer):
     game_type_name = serializers.CharField()
@@ -22,11 +24,11 @@ class GameRuleResponseSerializer(serializers.ModelSerializer):
         }
 
 
-class GameQuestRequestSerializer(serializers.Serializer):
+class GameStartRequestSerializer(serializers.Serializer):
     game_type_id = serializers.UUIDField()
 
 
-class GameQuestResponseSerializer(serializers.ModelSerializer):
+class GameStartResponseSerializer(serializers.ModelSerializer):
     game_id = serializers.UUIDField()
     game_quest = serializers.CharField()
     class Meta:
@@ -34,26 +36,34 @@ class GameQuestResponseSerializer(serializers.ModelSerializer):
         fields = ('game_id', 'game_quest')
 
 
-
-"""
-    Get Answer of Horoscope
-     
-    Args:
-        request: {
-            game_id(uuid): Id of Game
-            game_select_card_id(uuid): Select Card Id by Client
-            game_all_select_card_id: {
-                game_select_card_id(uuid): Selected card Id in Game
-                game_select_card_id(uuid): Selected card Id in Game
-                game_select_card_id(uuid): Selected card Id in Game
-            }
-        }
-    Returns:
-        response : {
-            success(boolean): True
-        }
-    """
 class GameEndRequestSerializer(serializers.Serializer):
     game_id = serializers.UUIDField()
     select_card_id = serializers.UUIDField()
     all_select_card_id = serializers.DictField(child=serializers.UUIDField())
+
+
+class GameEndResponseSerializer(serializers.Serializer):
+    success = serializers.BooleanField(default=False)
+    game_id = serializers.UUIDField()
+    select_card_id = serializers.UUIDField()
+    all_select_card_id = serializers.DictField()
+
+
+class GameSelectedCardInfoRequestSerializer(serializers.Serializer):
+    game_id = serializers.UUIDField()
+    
+
+class GameSelectedCardInfoResponseSerializer(serializers.Serializer):
+    success = serializers.BooleanField(default=False)
+    game_id = serializers.UUIDField()
+    select_card_id = serializers.UUIDField()
+    all_select_card_id = serializers.DictField()
+
+    def get_info(_game_id):
+        game = Game.objects.get(game_id=_game_id)
+        return {
+            'success': game.game_finished_at is not None,
+            'gameId': game.game_id,
+            'selectCardId': game.game_select_card_id,
+            'allSelectCardId': json.loads(game.game_all_select_card_id)
+        }

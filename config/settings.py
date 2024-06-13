@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders", 
-    "django_celery_results",
 
     "card",
     "game",
@@ -195,10 +194,9 @@ CORS_ALLOWED_ORIGINS = [
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Seoul"
+USE_TZ = True
 
 USE_I18N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
