@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import DBInitAPIView
+from init.views import init_db
 
 urlpatterns = [
-    path('table/', DBInitAPIView.as_view(), name='db_init'),
+    path('table/', init_db, name='db_init'),
 ]

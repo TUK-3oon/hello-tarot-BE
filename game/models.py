@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from card.models import Card
+
 
 class Game(models.Model):
     game_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -10,6 +10,13 @@ class Game(models.Model):
     game_quest = models.TextField(blank=False, null=False)
     game_started_at = models.DateTimeField(blank=False, null=False)
     game_finished_at = models.DateTimeField(blank=False, null=True)
+
+    def finished_game(game_id, game_select_card_id, game_all_select_card_id, game_finished_at):
+        game = Game.objects.get(game_id=game_id)
+        game.game_select_card_id = game_select_card_id
+        game.game_all_select_card_id = game_all_select_card_id
+        game.game_finished_at = game_finished_at
+        game.save()
 
     class Meta:
         managed = True

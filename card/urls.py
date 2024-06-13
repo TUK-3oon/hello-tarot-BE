@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from card import views
 
 urlpatterns = [
     path("back/", views.get_card_back_image, name="card_back"),
