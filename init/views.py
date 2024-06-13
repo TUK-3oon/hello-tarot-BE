@@ -3,7 +3,8 @@ from django.db import connection
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, login_required
+from rest_framework.decorators import api_view
+from django.contrib.auth.decorators import login_required
 from config import settings
 
 
