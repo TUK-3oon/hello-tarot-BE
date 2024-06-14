@@ -27,7 +27,7 @@ def get_card_back_image(request):
     cards = Card.objects.all()
     response_data = CardBackImgSerializer(instance=cards, many=True).data
 
-    return success_response(response_data, status=status.HTTP_200_OK)
+    return success_response(response_data, status.HTTP_200_OK)
 
 
 @api_view(["GET"])
@@ -57,7 +57,7 @@ def get_card_front_info(request):
     cards = Card.objects.all()
     response_data = CardFrontInfoSerializer(cards, many=True).data
 
-    return success_response(response_data, status=status.HTTP_200_OK)
+    return success_response(response_data, status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -85,7 +85,7 @@ def get_answer_horoscope(request):
     card = Card.objects.get(card_id=card_id)
     response_data = HoroscopeResponseSerializer(card).data
     
-    return success_response(response_data, status=status.HTTP_200_OK)
+    return success_response(response_data, status.HTTP_200_OK)
     
 
 @api_view(["POST"])
@@ -113,4 +113,4 @@ def get_answer(request):
 
     response_data = AnswerResponseSerializer(game).data
     
-    return success_response(response_data, status=status.HTTP_200_OK)
+    return success_response(response_data, status.HTTP_200_OK)
