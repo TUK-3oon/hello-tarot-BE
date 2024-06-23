@@ -1,23 +1,15 @@
+from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
-from celery.schedules import crontab
+from django.conf import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-# app = Celery('hellotarot', backend='redis://', broker='redis://{rdis ip address}')
-app = Celery("hellotarot")
+app = Celery('config')
 app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks()
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
-
+# 테스트를 위한 기본 작업 정의
 @app.task(bind=True)
 def debug_task(self):
-    print("Request: {0!r}".format(self.request))
-
-
-# app.conf.beat_schedule = {
-#     "update-status-5-minutes": {
-#         "task": "check_game_status",
-#         "schedule": crontab(second="*/1")
-#     }
-# }
+    print(f'Request: {self.request!r}')
