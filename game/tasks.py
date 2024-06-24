@@ -5,7 +5,6 @@ from celery import shared_task
 from django.utils import timezone
 from card.models import Card
 from config.settings import GOOGLE_API_KEY
-from config.utils import get_content, get_text_answer, remove_special_characters
 from game.models import Game, TaskStatus
 from gemini.models import AIAnswer
 import google.generativeai as genai

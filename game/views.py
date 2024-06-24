@@ -86,30 +86,16 @@ def game_end(request):
     game_id = serializer.get("game_id")
     print("game_id", game_id)
     select_card_id = serializer.get("select_card_id")
-    # all_select_card_id = request.data.get("all_select_card_id")
     all_select_card_id = {}
+    
     for key, value in serializer.get("all_select_card_id").items():
         all_select_card_id[key] = value
 
     game = Game.objects.get(game_id=game_id)
     task = get_gemini_answer_task.delay(game_id, select_card_id, all_select_card_id)
     TaskStatus.objects.create(task_status_id=task.id, task_status="READY", task_status_of_game=game)
-    task_status = TaskStatus.objects.get(task_status_id=task.id)
 
-    # if task_status.task_status == "READY":
-    #     game_is_finished = False
-    #     return success_response({"is_finished": game_is_finished}, status.HTTP_200_OK)
-    
-    # elif task_status.task_status == "STARTED":
-    #     game_is_finished = False
-    #     return error_response({"is_finished": game_is_finished}, status.HTTP_200_OK)
-    
-    # elif task_status.task_status == "FINISHED":
-    #     game_is_finished = True
-    #     return success_response({"is_finished": game_is_finished}, status.HTTP_200_OK)
-    
-    # else:
-    #     return error_response({"is_finished": False}, status.HTTP_200_OK)
+    # if ~ else: -> READY | STARTED | FINISHED response?
     return success_response({"task_id": task.id}, status.HTTP_200_OK)
 
 # @api_view(["GET"])
@@ -142,11 +128,9 @@ def get_answer(request):
     serializer = validate_serializer(GameGetAnswerRequestSerializer, request.data)
     game_id = serializer.get("game_id")
     game = Game.objects.get(game_id=game_id)
-    print(game)
 
     response_data = AIAnswer.objects.get(ai_answer_of_game=game)
     ai_answer_path = response_data.ai_answer_path
-    print(ai_answer_path)
     
     with open(ai_answer_path, "r") as file:
         response_data = file.read()
