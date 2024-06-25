@@ -27,6 +27,31 @@ services:
       - .env
     depends_on:
       - db
+      - redis
+
+  redis:
+    image: redis:alpine
+    command: redis-server --appendonly yes
+    ports:
+      # - "${REDIS_PORT}:6379"
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # command: celery -A hellotarot worker -l info
+    command: celery -A config worker --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
 
 volumes:
   postgres_data:
+  redis_data:

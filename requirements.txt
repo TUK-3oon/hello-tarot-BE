@@ -18,3 +18,12 @@ psycopg2==2.9.9
 # gemini
 google-generativeai
 google-cloud-aiplatform
+
+# celery
+celery==5.4.0
+django-celery-beat==2.6.0
+django-celery-results==2.5.1
+flower
+
+# redis
+redis==5.0.4

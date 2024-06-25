@@ -42,11 +42,15 @@ class GameEndRequestSerializer(serializers.Serializer):
     all_select_card_id = serializers.DictField(child=serializers.UUIDField())
 
 
-class GameEndResponseSerializer(serializers.Serializer):
-    success = serializers.BooleanField(default=False)
-    game_id = serializers.UUIDField()
-    select_card_id = serializers.UUIDField()
-    all_select_card_id = serializers.DictField()
+# class GameEndResponseSerializer(serializers.Serializer):
+#     is_finished = serializers.BooleanField(default=False)
+
+
+# class GameEndResponseSerializer(serializers.Serializer):
+#     success = serializers.BooleanField(default=False)
+#     game_id = serializers.UUIDField()
+#     select_card_id = serializers.UUIDField()
+#     all_select_card_id = serializers.DictField()
 
 
 class GameSelectedCardInfoRequestSerializer(serializers.Serializer):
@@ -67,3 +71,13 @@ class GameSelectedCardInfoResponseSerializer(serializers.Serializer):
             'selectCardId': game.game_select_card_id,
             'allSelectCardId': json.loads(game.game_all_select_card_id)
         }
+    
+
+class GameGetAnswerRequestSerializer(serializers.Serializer):
+    game_id = serializers.UUIDField()
+
+
+class GameGetAnswerResponseSerializer(serializers.Serializer):
+    ai_answer_id = serializers.UUIDField()
+    ai_answer_path = serializers.CharField()
+    ai_answer_of_game = serializers.UUIDField()

@@ -67,12 +67,12 @@ MIDDLEWARE = [
 ROOT_URLCONF = "config.urls"
 
 #Redis Setting
-BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = "Asia/Seoul"
+CELERY_TIMEZONE = "Australia/Tasmania"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
@@ -195,7 +195,9 @@ CORS_ALLOWED_ORIGINS = [
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Seoul"
-USE_TZ = True
+
+USE_TZ = False
+# USE_TZ = True
 
 USE_I18N = True
 
@@ -209,3 +211,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
