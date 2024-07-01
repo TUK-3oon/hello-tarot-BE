@@ -95,10 +95,8 @@ def game_end(request):
     task = get_gemini_answer_task.delay(game_id, select_card_id, all_select_card_id)
     TaskStatus.objects.create(task_status_id=task.id, task_status="READY", task_status_of_game=game)
 
-    # if ~ else: -> READY | STARTED | FINISHED response?
     return success_response({"task_id": task.id}, status.HTTP_200_OK)
 
-# @api_view(["GET"])
 @api_view(["POST"])
 @exception_handler(view=True)
 def task_status(request):
@@ -112,13 +110,12 @@ def task_status(request):
         return success_response({"success": "READY"}, status.HTTP_200_OK)
     
     elif task_status.task_status == "STARTED":
-        return success_response({"success": "STARTED"}, status.HTTP_102_PROCESSING)
+        return success_response({"success": "STARTED"}, status.HTTP_200_OK)
     
     elif task_status.task_status == "FINISHED":
         return success_response({"success": "FINISHED"}, status.HTTP_201_CREATED)
 
 
-# @api_view(["GET"])
 @api_view(["POST"])
 @exception_handler(view=True)
 def get_answer(request):

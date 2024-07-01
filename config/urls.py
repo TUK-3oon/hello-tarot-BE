@@ -6,5 +6,4 @@ urlpatterns = [
     path("card/", include("card.urls")),
     path("game/", include("game.urls")),
     path("init/", include("init.urls")),
-    path("googleai/", include("gemini.urls")),
 ]

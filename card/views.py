@@ -1,6 +1,5 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from config.utils import validate_serializer, exception_handler, success_response
 from game.models import Game
 from card.models import Card
