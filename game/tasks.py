@@ -33,7 +33,6 @@ def get_gemini_answer_task(self, game_id, select_card_id, all_select_card_id):
     }
 
     template_path = Path("game/templates/static/content.txt")
-    print("template_path: ", template_path)
     content = load_content_template(template_path, context)
     
     if content:
@@ -46,9 +45,6 @@ def get_gemini_answer_task(self, game_id, select_card_id, all_select_card_id):
         data_files_dir = Path("data/files")
         data_files_dir.mkdir(parents=True, exist_ok=True)
         file_path = data_files_dir / f"{task_id}.txt"
-
-        os.makedirs(data_files_dir, exist_ok=True)
-        file_path = os.path.join(data_files_dir, f"{task_id}.txt")
 
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(response_from_gemini.text)
