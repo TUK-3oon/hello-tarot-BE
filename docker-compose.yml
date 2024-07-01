@@ -33,7 +33,6 @@ services:
     image: redis:alpine
     command: redis-server --appendonly yes
     ports:
-      # - "${REDIS_PORT}:6379"
       - "6379:6379"
     volumes:
       - redis_data:/data
@@ -42,7 +41,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # command: celery -A hellotarot worker -l info
     command: celery -A config worker --loglevel=info
     volumes:
       - .:/app

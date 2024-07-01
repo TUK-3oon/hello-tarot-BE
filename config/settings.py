@@ -61,12 +61,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",    # CORS Option
+    "corsheaders.middleware.CorsMiddleware",    
 ]
 
 ROOT_URLCONF = "config.urls"
 
-#Redis Setting
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -109,30 +108,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.getenv("POSTGRES_DB"),
-#         'USER': os.getenv("POSTGRES_USER"),
-#         'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
-#         'HOST': 'db',
-#         'PORT': os.getenv("POSTGRES_PORT"),
-#     }
-# }
-
-# try:
-#     import psycopg2
-#     conn = psycopg2.connect(
-#         dbname=os.getenv("DB_NAME"),
-#         user=os.getenv("DB_USER"),
-#         password=os.getenv("DB_PASSWORD"),
-#         host=os.getenv("DB_HOST"),
-#         port=os.getenv("DB_PORT"),
-#     )
-#     conn.close()
-#     print("DB 접속 성공")
-# except Exception as e:
-#     print("DB 접속 실패:", e)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
