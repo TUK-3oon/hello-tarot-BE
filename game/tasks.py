@@ -8,6 +8,7 @@ from card.models import Card
 from config.settings import GOOGLE_API_KEY
 from config.utils import load_content_template
 from game.models import Game, TaskStatus
+from gemini.config import GeminiConfig
 from gemini.models import AIAnswer
 import google.generativeai as genai
 
@@ -18,8 +19,7 @@ def get_gemini_answer_task(self, game_id, select_card_id, all_select_card_id):
     """
     task_id = self.request.id
 
-    genai.configure(api_key=GOOGLE_API_KEY)
-    model = genai.GenerativeModel('gemini-pro')
+    model = GeminiConfig().setModel()
 
     game = Game.objects.get(game_id=game_id)
 
